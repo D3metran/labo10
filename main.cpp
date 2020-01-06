@@ -13,7 +13,8 @@ Compilateur : MinGW-g++ 6.3.0
 -----------------------------------------------------------------------------------
  */
 
-
+#include "YS_header.h"
+#include "SA_header.h"
 #include <iostream>
 #include <cstdlib>
 #include <limits> //numeric_limits
@@ -24,23 +25,9 @@ using namespace std;
 
 int main() {
 
-   char recommencer;
-   const char RECOMMENCER_OUI = 'o';
-   const char RECOMMENCER_NON = 'n';
+   
 
-   do {
-
-      //INSERT PROGRAM HERE
-
-      do {
-         cout << "Voulez vous recommencer ["
-                 << RECOMMENCER_OUI << "|"
-                 << RECOMMENCER_NON << "] : ";
-         cin >> recommencer;
-         VIDER_BUFFER;
-      } while (recommencer != RECOMMENCER_OUI && recommencer != RECOMMENCER_NON);
-
-   } while (recommencer == RECOMMENCER_OUI);
+   //INSERT PROGRAM HERE
 
    cout << "Presser [Enter] pour quitter" << endl;
    VIDER_BUFFER;
