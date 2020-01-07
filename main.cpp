@@ -63,6 +63,8 @@ int main() {
          {false, false, false, false, false}
       }
    };
+   
+   Cube userScan = input();
 
    displayPlane(layerCube(CubeTest, Dimension::XY, 3));
    cout << endl;

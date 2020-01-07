@@ -1,5 +1,7 @@
 #include "YS_header.h"
 
+using namespace std;
+
 Plane layerCube(Cube scanner, Dimension dimension, int layer) {
 
    Plane output;
@@ -60,5 +62,22 @@ void displayPlane(Plane display) {
       }
       cout << endl;
    }
+
+}
+
+Cube input() {
+
+   int dimensionX = 0, dimensionY = 0, dimensionZ = 0;
+
+   do {
+
+      cout << "Entrez les valeurs des 3 dimensions du scan (nombres entiers > 0) : ";
+      cin >> dimensionX >> dimensionY >> dimensionZ;
+
+   } while (cin.fail() || dimensionX < 0 || dimensionY < 0 || dimensionZ < 0);
+   
+   Cube userCube(dimensionX, Plane(dimensionY, Line(dimensionZ)));
+   
+   return userCube;
 
 }
