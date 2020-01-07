@@ -25,9 +25,51 @@ using namespace std;
 
 int main() {
 
-   
 
-   //INSERT PROGRAM HERE
+   Cube CubeTest = {
+      {
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, true, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, false}
+      },
+      {
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, true, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, false}
+      },
+      {
+         {false, false, false, false, false},
+         {false, false, true, false, false},
+         {false, false, true, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, true}
+      },
+      {
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, false, false, false}
+      },
+      {
+         {false, false, false, false, false},
+         {false, false, false, false, false},
+         {false, false, false, true, true},
+         {false, false, false, false, false},
+         {false, false, false, false, false}
+      }
+   };
+
+   displayPlane(layerCube(CubeTest, Dimension::XY, 3));
+   cout << endl;
+   displayPlane(layerCube(CubeTest, Dimension::XZ, 3));
+   cout << endl;
+   displayPlane(layerCube(CubeTest, Dimension::YZ, 3));
+
 
    cout << "Presser [Enter] pour quitter" << endl;
    VIDER_BUFFER;

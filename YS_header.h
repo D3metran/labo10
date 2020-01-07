@@ -3,13 +3,21 @@
 #ifndef YS_HEADER_H
 #define YS_HEADER_H
 #include <vector>
+#include <string>
+#include <iostream>
 
-using Line  = vector<bool>;
+using namespace std;
+
+using Line = vector<bool>;
 using Plane = vector<Line>;
-using Cube  = vector<Plane>;
+using Cube = vector<Plane>;
 
-enum class Dimension {XY, XZ, YZ};
+enum class Dimension {
+   XY, XZ, YZ
+};
 
-Plane affichagePlan()
+Plane layerCube(Cube scanner, Dimension dimension, int layer);
+
+void displayPlane(Plane display);
 
 #endif
