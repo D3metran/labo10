@@ -26,27 +26,27 @@ Plane layerCube(Cube scanner, Dimension dimension, int layer) {
             for (size_t j = 0; j < scanner.at(i).at(layer).size(); ++j)
                output[i][j] = scanner[i][layer][j];
          }
+
+         break;
+
+      case Dimension::YZ:
+
+         output.resize(scanner.at(layer).size());
+         for (size_t i = 0; i < scanner.size(); ++i) {
+            output.at(i).resize(scanner.at(layer).at(i).size());
+            for (size_t j = 0; j < scanner.at(layer).at(i).size(); ++j)
+               output[i][j] = scanner[layer][i][j];
+         }
+
+         break;
+
+      default:
+
+         //On fait quoi en default ? On ignore le cas ?
+
+         break;
+
    }
-
-   break;
-
-   case Dimension::YZ:
-
-   output.resize(scanner.at(layer).size());
-   for (size_t i = 0; i < scanner.size(); ++i) {
-      output.at(i).resize(scanner.at(layer).at(i).size());
-      for (size_t j = 0; j < scanner.at(layer).at(i).size(); ++j) {
-         output[i][j] = scanner[layer][i][j];
-      }
-   }
-
-   break;
-
-   default:
-
-   //On fait quoi en default ? On ignore le cas ?
-
-   break;
 
    return output;
 
