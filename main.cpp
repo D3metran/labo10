@@ -14,7 +14,6 @@ Compilateur : MinGW-g++ 6.3.0
  */
 
 #include "YS_header.h"
-#include "SA_header.h"
 #include <iostream>
 #include <cstdlib>
 #include <limits> //numeric_limits
