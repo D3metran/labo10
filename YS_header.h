@@ -13,7 +13,7 @@ enum class Dimension {
    XY, XZ, YZ
 };
 
-Plane layerCube(Cube scanner, Dimension dimension, int layer);
+Plane layerCube(Cube scanner, Dimension dimension, size_t layer);
 
 void displayPlane(Plane display);
 

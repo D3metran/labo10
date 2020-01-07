@@ -62,14 +62,21 @@ int main() {
          {false, false, false, false, false}
       }
    };
-   
+
    Cube userScan = input();
 
+   for (size_t i = 0; i < userScan.size(); ++i) {
+      displayPlane(layerCube(userScan, Dimension::YZ, i + 1));
+      cout << endl;
+   }
+
+   /*
    displayPlane(layerCube(CubeTest, Dimension::XY, 3));
    cout << endl;
    displayPlane(layerCube(CubeTest, Dimension::XZ, 3));
    cout << endl;
    displayPlane(layerCube(CubeTest, Dimension::YZ, 3));
+    */
 
 
    cout << "Presser [Enter] pour quitter" << endl;

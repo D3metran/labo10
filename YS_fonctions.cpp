@@ -1,50 +1,54 @@
 #include "YS_header.h"
 
+#include <limits>
+#define VIDER_BUFFER cin.ignore(numeric_limits<streamsize>::max(),'\n')
+
 using namespace std;
 
-Plane layerCube(Cube scanner, Dimension dimension, int layer) {
+Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
 
    Plane output;
-   layer--;
+
+   size_t sizeX = scanner.size();
+   size_t sizeY = scanner.at(0).size();
+   size_t sizeZ = scanner.at(0).at(0).size();
 
    switch (dimension) {
 
       case Dimension::XY:
 
-         output.resize(scanner.size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(i).size());
-            for (size_t j = 0; j < scanner.at(i).size(); ++j)
-               output[i][j] = scanner[i][j][layer];
-         }
+         if (layer > sizeZ) break;
+
+         output.resize(sizeX, Line(sizeY, false));
+
+         for (size_t x = 0; x < sizeX; ++x)
+            for (size_t y = 0; y < sizeY; ++y)
+               output[x][y] = scanner[x][y][layer - 1];
 
          break;
 
       case Dimension::XZ:
 
-         output.resize(scanner.size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(i).at(layer).size());
-            for (size_t j = 0; j < scanner.at(i).at(layer).size(); ++j)
-               output[i][j] = scanner[i][layer][j];
-         }
+         if (layer > sizeY) break;
+
+         output.resize(sizeX, Line(sizeZ, false));
+
+         for (size_t x = 0; x < sizeX; ++x)
+            for (size_t z = 0; z < sizeZ; ++z)
+               output[x][z] = scanner[x][layer - 1][z];
+
 
          break;
 
       case Dimension::YZ:
 
-         output.resize(scanner.at(layer).size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(layer).at(i).size());
-            for (size_t j = 0; j < scanner.at(layer).at(i).size(); ++j)
-               output[i][j] = scanner[layer][i][j];
-         }
+         if (layer > sizeX) break;
 
-         break;
+         output.resize(sizeY, Line(sizeZ, false));
 
-      default:
-
-         //On fait quoi en default ? On ignore le cas ?
+         for (size_t y = 0; y < sizeY; ++y)
+            for (size_t z = 0; z < sizeZ; ++z)
+               output[y][z] = scanner[layer - 1][y][z];
 
          break;
 
@@ -56,9 +60,9 @@ Plane layerCube(Cube scanner, Dimension dimension, int layer) {
 
 void displayPlane(Plane display) {
 
-   for (size_t i = 0; i < display.size(); ++i) {
-      for (size_t j = 0; j < display.at(i).size(); ++j) {
-         cout << (display[i][j] ? "X" : "O");
+   for (size_t x = 0; x < display.size(); ++x) {
+      for (size_t y = 0; y < display.at(x).size(); ++y) {
+         cout << display[x][y];
       }
       cout << endl;
    }
@@ -67,17 +71,42 @@ void displayPlane(Plane display) {
 
 Cube input() {
 
-   int dimensionX = 0, dimensionY = 0, dimensionZ = 0;
+   unsigned int dimensionX, dimensionY, dimensionZ;
 
    do {
+
+      if (cin.fail()) {
+         cin.clear();
+         VIDER_BUFFER;
+      }
 
       cout << "Entrez les valeurs des 3 dimensions du scan (nombres entiers > 0) : ";
       cin >> dimensionX >> dimensionY >> dimensionZ;
 
-   } while (cin.fail() || dimensionX < 0 || dimensionY < 0 || dimensionZ < 0);
-   
-   Cube userCube(dimensionX, Plane(dimensionY, Line(dimensionZ)));
-   
+   } while (cin.fail());
+   VIDER_BUFFER;
+
+
+
+   Cube userCube(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));
+
+   char tmp;
+
+   for (size_t x = 0; x < dimensionX; ++x) {
+      for (size_t y = 0; y < dimensionY; ++y) {
+         cout << "Entrez " << dimensionZ << " booleens : ";
+         cin;
+         for (size_t z = 0; z < dimensionZ; ++z) {
+            do {
+               tmp = (char) getchar();
+            } while (tmp == ' ' || tmp == '\n');
+            userCube.at(x).at(y).at(z) = (tmp != '0');
+         }
+         VIDER_BUFFER;
+      }
+      cout << "couche " << x + 1 << " terminee" << endl;
+   }
+
    return userCube;
 
 }
