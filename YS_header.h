@@ -3,21 +3,31 @@
 #ifndef YS_HEADER_H
 #define YS_HEADER_H
 #include <vector>
-#include <string>
 #include <iostream>
 
-using namespace std;
-
-using Line = vector<bool>;
-using Plane = vector<Line>;
-using Cube = vector<Plane>;
+using Line = std::vector<bool>;
+using Plane = std::vector<Line>;
+using Volume = std::vector<Plane>;
 
 enum class Dimension {
    XY, XZ, YZ
 };
 
-Plane layerCube(Cube scanner, Dimension dimension, int layer);
+Plane layerVolume(Volume volume, Dimension dimension, size_t layer);
 
-void displayPlane(Plane display);
+Volume inputScanUser();
+
+/**
+ * Surcharge << pour Line
+ * @param os
+ * @param vecteur
+ */
+std::ostream& operator<<(std::ostream& os, const Line& line);
+/** 
+ * Surcharge << pour Plane
+ *  @param os
+ * @param matrice
+ */
+std::ostream& operator<<(std::ostream& os, const Plane& plane);
 
 #endif

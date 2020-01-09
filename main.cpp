@@ -1,13 +1,13 @@
 /*
 -----------------------------------------------------------------------------------
-Laboratoire : <nn>
+Laboratoire : <nn>it
 Fichier     : <nom du fichier>.cpp
 Auteur(s)   : Yannick Schaufelberger
 Date        : <jj.mm.aaaa>
 
 But         : <Que fait le code? Clair, concis et exhaustif>
 
-Remarque(s) : <Lister les problèmes du code>
+Remarque(s) : <Lister les problÃ¨mes du code>
 
 Compilateur : MinGW-g++ 6.3.0
 -----------------------------------------------------------------------------------
@@ -23,6 +23,15 @@ Compilateur : MinGW-g++ 6.3.0
 using namespace std;
 
 int main() {
+
+
+   Cube userScan = inputScanUser();
+
+   cout << '[' << endl;
+   for (size_t i = 0; i < userScan.size(); ++i) {
+      cout << layerCube(userScan, Dimension::YZ, i + 1) << endl;
+   }
+   cout << ']' << endl;
 
 
    Cube CubeTest = {
@@ -63,11 +72,13 @@ int main() {
       }
    };
 
-   displayPlane(layerCube(CubeTest, Dimension::XY, 3));
+   /*
+   displayPlane(layerCube(CubeTest, Dimension::XY, 3));  
    cout << endl;
    displayPlane(layerCube(CubeTest, Dimension::XZ, 3));
    cout << endl;
    displayPlane(layerCube(CubeTest, Dimension::YZ, 3));
+    */
 
 
    cout << "Presser [Enter] pour quitter" << endl;

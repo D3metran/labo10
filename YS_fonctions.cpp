@@ -1,48 +1,54 @@
 #include "YS_header.h"
 
-Plane layerCube(Cube scanner, Dimension dimension, int layer) {
+#include <limits>
+#define VIDER_BUFFER cin.ignore(numeric_limits<streamsize>::max(),'\n')
+
+using namespace std;
+
+Plane layerCube(Volume volume, Dimension dimension, size_t layer) {
 
    Plane output;
-   layer--;
+
+   size_t sizeX = volume.size();
+   size_t sizeY = volume.at(0).size();
+   size_t sizeZ = volume.at(0).at(0).size();
 
    switch (dimension) {
 
       case Dimension::XY:
 
-         output.resize(scanner.size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(i).size());
-            for (size_t j = 0; j < scanner.at(i).size(); ++j)
-               output[i][j] = scanner[i][j][layer];
-         }
+         if (layer > sizeZ) break;
+
+         output.resize(sizeX, Line(sizeY, false));
+
+         for (size_t x = 0; x < sizeX; ++x)
+            for (size_t y = 0; y < sizeY; ++y)
+               output[x][y] = volume[x][y][layer - 1];
 
          break;
 
       case Dimension::XZ:
 
-         output.resize(scanner.size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(i).at(layer).size());
-            for (size_t j = 0; j < scanner.at(i).at(layer).size(); ++j)
-               output[i][j] = scanner[i][layer][j];
-         }
+         if (layer > sizeY) break;
+
+         output.resize(sizeX, Line(sizeZ, false));
+
+         for (size_t x = 0; x < sizeX; ++x)
+            for (size_t z = 0; z < sizeZ; ++z)
+               output[x][z] = volume[x][layer - 1][z];
+
 
          break;
 
       case Dimension::YZ:
 
-         output.resize(scanner.at(layer).size());
-         for (size_t i = 0; i < scanner.size(); ++i) {
-            output.at(i).resize(scanner.at(layer).at(i).size());
-            for (size_t j = 0; j < scanner.at(layer).at(i).size(); ++j)
-               output[i][j] = scanner[layer][i][j];
-         }
+         if (layer > sizeX) break;
 
-         break;
+         output.resize(sizeY, Line(sizeZ, false));
 
-      default:
-
-         //On fait quoi en default ? On ignore le cas ?
+         for (size_t y = 0; y < sizeY; ++y)
+            for (size_t z = 0; z < sizeZ; ++z)
+               output[y][z] = volume[layer - 1][y][z];
 
          break;
 
@@ -52,13 +58,63 @@ Plane layerCube(Cube scanner, Dimension dimension, int layer) {
 
 }
 
-void displayPlane(Plane display) {
+Volume inputScanUser() {
 
-   for (size_t i = 0; i < display.size(); ++i) {
-      for (size_t j = 0; j < display.at(i).size(); ++j) {
-         cout << (display[i][j] ? "X" : "O");
+   unsigned int dimensionX, dimensionY, dimensionZ;
+
+   //Boucle de saisie des dimensions du scan
+   do {
+      if (cin.fail()) {
+         cin.clear();
+         VIDER_BUFFER;
       }
-      cout << endl;
+      cout << "Entrez les valeurs des 3 dimensions du scan (nombres entiers > 0) : ";
+      cin >> dimensionX >> dimensionY >> dimensionZ;
+
+   } while (cin.fail());
+   VIDER_BUFFER;
+
+   Volume scanVolume(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));
+   char tmp;
+
+   //Remplissage ligne par ligne du scan
+   for (size_t x = 0; x < dimensionX; ++x) {
+      for (size_t y = 0; y < dimensionY; ++y) {
+         cout << "Entrez " << dimensionZ << " booleens (0 ou 1) : ";
+         cin;
+         for (size_t z = 0; z < dimensionZ; ++z) {
+            do {
+               tmp = (char) getchar();
+            } while (tmp == ' ' || tmp == '\n');
+            scanVolume.at(x).at(y).at(z) = (tmp != '0');
+         }
+         VIDER_BUFFER;
+      }
+      cout << "couche " << x + 1 << " terminee" << endl;
    }
 
+   return scanVolume;
+
+}
+
+ostream& operator<<(ostream& os, const Line& line) {
+   os << '[';
+   for (auto i = line.begin(); i != line.end(); ++i) {
+      os << *i;
+      if (i != line.end() - 1)
+         os << ", ";
+   }
+   os << ']';
+   return os;
+}
+
+ostream& operator<<(ostream& os, const Plane& plane) {
+   os << '[';
+   for (auto i = plane.begin(); i != plane.end(); ++i) {
+      os << *i;
+      if (i != plane.end() - 1)
+         os << ", ";
+   }
+   os << ']';
+   return os;
 }
