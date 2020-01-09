@@ -1,17 +1,12 @@
-/*
------------------------------------------------------------------------------------
-Laboratoire : <nn>it
-Fichier     : <nom du fichier>.cpp
-Auteur(s)   : Yannick Schaufelberger
-Date        : <jj.mm.aaaa>
-
-But         : <Que fait le code? Clair, concis et exhaustif>
-
-Remarque(s) : <Lister les problÃ¨mes du code>
-
-Compilateur : MinGW-g++ 6.3.0
------------------------------------------------------------------------------------
- */
+/*  ----------------------------------------------------------------------------
+Labo         : Labo_10
+File         : LABO_10_Ackermann_Schaufelberger_main.cpp
+Author(s)    : Yannick Schaufelberger et Simon Ackermann
+Date         : 07.01.2020
+Purpose      : Manipuler le resultat d'un scan 3D
+Remarks(s)   :
+Compiler     : MinGW-g++ 6.3.0
+--------------------------------------------------------------------------------  */
 
 #include <iostream>
 #include <cstdlib>
@@ -67,9 +62,14 @@ int main() {
       }
    };
 
-    //Plane projection = projectDimension(cubeTest, Dimension::YZ);
+   cout << "Projection sur XY" << endl;
+   cout << projectDimension(cubeTest, Dimension::XY) << endl;
 
-    //cout << projection << endl;
+   cout << "Projection sur XZ" << endl;
+   cout << projectDimension(cubeTest, Dimension::XZ) << endl;
+
+   cout << "Projection sur YZ" << endl;
+   cout << projectDimension(cubeTest, Dimension::YZ) << endl;
 
    cout << "Presser [Enter] pour quitter" << endl;
    EMPTY_BUFFER;

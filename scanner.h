@@ -1,11 +1,11 @@
 /*  ----------------------------------------------------------------------------
 Labo         : Labo_10
 File         : LABO_10_Ackermann_Schaufelberger_scanner.h
-Author(s)    : Hugo Mendes et Simon Ackermann
-Date         : 07..2020
-Purpose      : Functions related to matrix manipulation
+Author(s)    : Yannick Schaufelberger et Simon Ackermann
+Date         : 07.01.2020
+Purpose      : Manipuler le resultat d'un scan 3D
 Remarks(s)   :
-Compiler     : g++ 7.4.0
+Compiler     : MinGW-g++ 6.3.0
 --------------------------------------------------------------------------------  */
 #ifndef LABO_10_SCANNER_H
 #define LABO_10_SCANNER_H
@@ -21,16 +21,37 @@ enum class Dimension {
     XY, XZ, YZ
 };
 
-Plane projectDimension(Volume&, Dimension);
-
-void projectXY(Volume&, Plane&);
-
-void projectXZ(Volume&, Plane&);
-
-void projectYZ(Volume&, Plane&);
+/**
+ * @brief projette la dimension sur un plan
+ * @param volume
+ * @param dimension
+ * @return
+ */
+Plane projectDimension(Volume& volume, Dimension dimension);
 
 /**
- * copie une couche d'un volume
+ * @brief projette la dimension XY sur un plan
+ * @param volume
+ * @param plane
+ */
+void projectXY(Volume& volume, Plane& plane);
+
+/**
+ * @brief projette la dimension XZ sur un plan
+ * @param volume
+ * @param plane
+ */
+void projectXZ(Volume& volume, Plane& plane);
+
+/**
+ * @brief projette la dimension YZ sur un plan
+ * @param volume
+ * @param plane
+ */
+void projectYZ(Volume& volume, Plane& plane);
+
+/**
+ * @brief copie une couche d'un volume
  * @param volume le volume dont la couche sera copie
  * @param dimension la dimension par laquelle on regarde le volume
  * @param layer le numero de la couche (la n-Ã¨me couche)
@@ -38,28 +59,47 @@ void projectYZ(Volume&, Plane&);
  */
 Plane copyLayerFromVolume(Volume& volume, Dimension dimension, size_t layer);
 
+/**
+ * @brief copie une couche de la dimension XY
+ * @param volume
+ * @param layer
+ * @param plane
+ */
 void copyXYLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 
+/**
+ * @brief copie une couche de la dimension XZ
+ * @param volume
+ * @param layer
+ * @param plane
+ */
 void copyXZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 
+/**
+ * @brief copie une couche de la dimension YZ
+ * @param volume
+ * @param layer
+ * @param plane
+ */
 void copyYZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 
 /**
- * Demande des dimensions Ã  l'utilisateur, crÃ©e un volume en consÃ©quence
- * et demande Ã  l'utilisateur de le remplir
+ * @brief Demande des dimensions Ã  l'utilisateur, crÃ©e un volume en consÃ©quence
+ *        et demande Ã  l'utilisateur de le remplir
+ * @remark Toute entrée autre que 0 est considérée comme 1
  * @return le volume crÃ©e et rempli
  */
 Volume inputScanUser();
 
 /**
- * Surcharge << pour Line
+ * @brief Surcharge << pour Line
  * @param os
  * @param vecteur
  */
 std::ostream& operator<<(std::ostream& os, const Line& line);
 /**
- * Surcharge << pour Plane
- *  @param os
+ * @brief Surcharge << pour Plane
+ * @param os
  * @param matrice
  */
 std::ostream& operator<<(std::ostream& os, const Plane& plane);

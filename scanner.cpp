@@ -1,6 +1,12 @@
-//
-// Created by nigelmann on 07.01.20.
-//
+/*  ----------------------------------------------------------------------------
+Labo         : Labo_10
+File         : LABO_10_Ackermann_Schaufelberger_scanner.cpp
+Author(s)    : Yannick Schaufelberger et Simon Ackermann
+Date         : 07.01.2020
+Purpose      : Manipuler le resultat d'un scan 3D
+Remarks(s)   :
+Compiler     : MinGW-g++ 6.3.0
+--------------------------------------------------------------------------------  */
 #include "scanner.h"
 #include <iostream>
 #include <limits>
