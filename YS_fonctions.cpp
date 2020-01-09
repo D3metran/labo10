@@ -5,13 +5,13 @@
 
 using namespace std;
 
-Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
+Plane layerCube(Volume volume, Dimension dimension, size_t layer) {
 
    Plane output;
 
-   size_t sizeX = scanner.size();
-   size_t sizeY = scanner.at(0).size();
-   size_t sizeZ = scanner.at(0).at(0).size();
+   size_t sizeX = volume.size();
+   size_t sizeY = volume.at(0).size();
+   size_t sizeZ = volume.at(0).at(0).size();
 
    switch (dimension) {
 
@@ -23,7 +23,7 @@ Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
 
          for (size_t x = 0; x < sizeX; ++x)
             for (size_t y = 0; y < sizeY; ++y)
-               output[x][y] = scanner[x][y][layer - 1];
+               output[x][y] = volume[x][y][layer - 1];
 
          break;
 
@@ -35,7 +35,7 @@ Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
 
          for (size_t x = 0; x < sizeX; ++x)
             for (size_t z = 0; z < sizeZ; ++z)
-               output[x][z] = scanner[x][layer - 1][z];
+               output[x][z] = volume[x][layer - 1][z];
 
 
          break;
@@ -48,7 +48,7 @@ Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
 
          for (size_t y = 0; y < sizeY; ++y)
             for (size_t z = 0; z < sizeZ; ++z)
-               output[y][z] = scanner[layer - 1][y][z];
+               output[y][z] = volume[layer - 1][y][z];
 
          break;
 
@@ -58,18 +58,7 @@ Plane layerCube(Cube scanner, Dimension dimension, size_t layer) {
 
 }
 
-void displayPlane(Plane display) {
-
-   for (size_t x = 0; x < display.size(); ++x) {
-      for (size_t y = 0; y < display.at(x).size(); ++y) {
-         cout << display[x][y];
-      }
-      cout << endl;
-   }
-
-}
-
-Cube input() {
+Volume inputScanUser() {
 
    unsigned int dimensionX, dimensionY, dimensionZ;
 
@@ -85,7 +74,7 @@ Cube input() {
    } while (cin.fail());
    VIDER_BUFFER;
 
-   Cube userCube(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));
+   Volume scanVolume(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));
    char tmp;
 
    //Remplissage ligne par ligne du scan
@@ -97,13 +86,35 @@ Cube input() {
             do {
                tmp = (char) getchar();
             } while (tmp == ' ' || tmp == '\n');
-            userCube.at(x).at(y).at(z) = (tmp != '0');
+            scanVolume.at(x).at(y).at(z) = (tmp != '0');
          }
          VIDER_BUFFER;
       }
       cout << "couche " << x + 1 << " terminee" << endl;
    }
 
-   return userCube;
+   return scanVolume;
 
+}
+
+ostream& operator<<(ostream& os, const Line& line) {
+   os << '[';
+   for (auto i = line.begin(); i != line.end(); ++i) {
+      os << *i;
+      if (i != line.end() - 1)
+         os << ", ";
+   }
+   os << ']';
+   return os;
+}
+
+ostream& operator<<(ostream& os, const Plane& plane) {
+   os << '[';
+   for (auto i = plane.begin(); i != plane.end(); ++i) {
+      os << *i;
+      if (i != plane.end() - 1)
+         os << ", ";
+   }
+   os << ']';
+   return os;
 }

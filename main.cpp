@@ -1,6 +1,6 @@
 /*
 -----------------------------------------------------------------------------------
-Laboratoire : <nn>
+Laboratoire : <nn>it
 Fichier     : <nom du fichier>.cpp
 Auteur(s)   : Yannick Schaufelberger
 Date        : <jj.mm.aaaa>
@@ -24,14 +24,14 @@ using namespace std;
 
 int main() {
 
-   /*
+
    Cube userScan = inputScanUser();
 
+   cout << '[' << endl;
    for (size_t i = 0; i < userScan.size(); ++i) {
-      displayPlane(layerCube(userScan, Dimension::YZ, i + 1));
-      cout << endl;
+      cout << layerCube(userScan, Dimension::YZ, i + 1) << endl;
    }
-    */
+   cout << ']' << endl;
 
 
    Cube CubeTest = {
@@ -73,7 +73,7 @@ int main() {
    };
 
    /*
-   displayPlane(layerCube(CubeTest, Dimension::XY, 3));
+   displayPlane(layerCube(CubeTest, Dimension::XY, 3));  
    cout << endl;
    displayPlane(layerCube(CubeTest, Dimension::XZ, 3));
    cout << endl;
