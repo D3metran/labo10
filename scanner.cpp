@@ -9,7 +9,9 @@ using namespace std;
 #define EMPTY_BUFFER cin.ignore(numeric_limits<streamsize>::max(),'\n')
 
 Plane projectDimension(Volume& scan, Dimension dimension) {
+
     Plane projection;
+
     switch (dimension) {
         case Dimension::XY:
             projectXY(scan, projection);
@@ -26,13 +28,16 @@ Plane projectDimension(Volume& scan, Dimension dimension) {
 }
 
 void projectXY(Volume& scan, Plane& projection) {
+
     const size_t X_SIZE = scan.size();
     const size_t Y_SIZE = scan.at(0).size();
     const size_t Z_SIZE = scan.at(0).at(0).size();
+
     projection.resize(X_SIZE, Line(Y_SIZE));
+
     for (size_t x = 0; x < X_SIZE; ++x) {
         for (size_t y = 0; y < Y_SIZE; ++y) {
-            for (size_t z = 0; z < Y_SIZE; ++z) {
+            for (size_t z = 0; z < Z_SIZE; ++z) {
                 if (scan[x][y][z]) {
                     projection[x][y] = true;
                     break;
@@ -43,10 +48,13 @@ void projectXY(Volume& scan, Plane& projection) {
 }
 
 void projectYZ(Volume& scan, Plane& projection) {
+
     const size_t X_SIZE = scan.size();
     const size_t Y_SIZE = scan.at(0).size();
     const size_t Z_SIZE = scan.at(0).at(0).size();
+
     projection.resize(Y_SIZE, Line(Z_SIZE));
+
     for (size_t y = 0; y < Y_SIZE; ++y) {
         for (size_t z = 0; z < Z_SIZE; ++z) {
             for (size_t x = 0; x < X_SIZE; ++x) {
@@ -60,10 +68,13 @@ void projectYZ(Volume& scan, Plane& projection) {
 }
 
 void projectXZ(Volume& scan, Plane& projection) {
+
     const size_t X_SIZE = scan.size();
     const size_t Y_SIZE = scan.at(0).size();
     const size_t Z_SIZE = scan.at(0).at(0).size();
+
     projection.resize(X_SIZE, Line(Z_SIZE));
+
     for (size_t x = 0; x < X_SIZE; ++x) {
         for (size_t z = 0; z < Z_SIZE; ++z) {
             for (size_t y = 0; y < Y_SIZE; ++y) {
@@ -77,62 +88,82 @@ void projectXZ(Volume& scan, Plane& projection) {
 }
 
 
-Plane copyLayerFromVolume(Volume volume, Dimension dimension, size_t layer) {
+Plane copyLayerFromVolume(Volume& volume, Dimension dimension, size_t layer) {
 
-    Plane output;
 
     const size_t SIZE_X = volume.size();
     const size_t SIZE_Y = volume.at(0).size();
     const size_t SIZE_Z = volume.at(0).at(0).size();
 
+    Plane outputLayer;
+
     switch (dimension) {
-
         case Dimension::XY:
-
             if (layer > SIZE_Z) break;
-
-            output.resize(SIZE_X, Line(SIZE_Y, false));
-
-            for (size_t x = 0; x < SIZE_X; ++x)
-                for (size_t y = 0; y < SIZE_Y; ++y)
-                    output[x][y] = volume[x][y][layer - 1];
-
+            copyXYLayerFromVolume(volume, layer, outputLayer);
             break;
-
         case Dimension::XZ:
-
             if (layer > SIZE_Y) break;
-
-            output.resize(SIZE_X, Line(SIZE_Z, false));
-
-            for (size_t x = 0; x < SIZE_X; ++x)
-                for (size_t z = 0; z < SIZE_Z; ++z)
-                    output[x][z] = volume[x][layer - 1][z];
-
-
+            copyXZLayerFromVolume(volume, layer, outputLayer);
             break;
-
         case Dimension::YZ:
-
             if (layer > SIZE_X) break;
-
-            output.resize(SIZE_Y, Line(SIZE_Z, false));
-
-            for (size_t y = 0; y < SIZE_Y; ++y)
-                for (size_t z = 0; z < SIZE_Z; ++z)
-                    output[y][z] = volume[layer - 1][y][z];
-
+            copyYZLayerFromVolume(volume, layer, outputLayer);
             break;
-
     }
 
-    return output;
+    return outputLayer;
 
+}
+
+void copyXYLayerFromVolume(Volume& volume, size_t layer, Plane& plane) {
+
+    const size_t SIZE_X = volume.size();
+    const size_t SIZE_Y = volume.at(0).size();
+
+    plane.resize(SIZE_X, Line(SIZE_Y, false));
+
+    for (size_t x = 0; x < SIZE_X; ++x) {
+        for (size_t y = 0; y < SIZE_Y; ++y) {
+            plane[x][y] = volume[x][y][layer - 1];
+        }
+    }
+
+}
+
+void copyXZLayerFromVolume(Volume& volume, size_t layer, Plane& plane) {
+
+    const size_t SIZE_X = volume.size();
+    const size_t SIZE_Z = volume.at(0).at(0).size();
+
+    plane.resize(SIZE_X, Line(SIZE_Z, false));
+
+    for (size_t x = 0; x < SIZE_X; ++x) {
+        for (size_t z = 0; z < SIZE_Z; ++z) {
+            plane[x][z] = volume[x][layer - 1][z];
+        }
+    }
+}
+
+void copyYZLayerFromVolume(Volume& volume, size_t layer, Plane& plane) {
+
+    const size_t SIZE_Y = volume.at(0).size();
+    const size_t SIZE_Z = volume.at(0).at(0).size();
+
+    plane.resize(SIZE_Y, Line(SIZE_Z, false));
+
+    for (size_t y = 0; y < SIZE_Y; ++y) {
+        for (size_t z = 0; z < SIZE_Z; ++z) {
+            plane[y][z] = volume[layer - 1][y][z];
+        }
+    }
 }
 
 Volume inputScanUser() {
 
-    unsigned int dimensionX, dimensionY, dimensionZ;
+    const int MAX_SIZE = 20;
+
+    int dimensionX, dimensionY, dimensionZ;
 
     //Boucle de saisie des dimensions du scan
     do {
@@ -140,10 +171,16 @@ Volume inputScanUser() {
             cin.clear();
             EMPTY_BUFFER;
         }
-        cout << "Entrez les valeurs des 3 dimensions du scan (nombres entiers > 0) : ";
+        cout << "Separez chacune des entree par un espace ou un retour a la ligne" << endl;
+        cout << "Entrez les valeurs des 3 dimensions une par une du scan (nombres entiers [1 - " << MAX_SIZE <<  "]) : ";
         cin >> dimensionX >> dimensionY >> dimensionZ;
 
-    } while (cin.fail());
+    } while (
+            cin.fail() ||
+            ((dimensionX <= 0 || dimensionX >= MAX_SIZE) && cout << "Première dimension incorrecte" << endl) ||
+            ((dimensionY <= 0 || dimensionY >= MAX_SIZE) && cout << "Deuxième dimension incorrecte" << endl) ||
+            ((dimensionZ <= 0 || dimensionZ >= MAX_SIZE) && cout << "Première dimension incorrecte" << endl)
+        );
     EMPTY_BUFFER;
 
     Volume scanVolume(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));

@@ -36,7 +36,13 @@ void projectYZ(Volume&, Plane&);
  * @param layer le numero de la couche (la n-Ã¨me couche)
  * @return 
  */
-Plane copyLayerFromVolume(Volume volume, Dimension dimension, size_t layer);
+Plane copyLayerFromVolume(Volume& volume, Dimension dimension, size_t layer);
+
+void copyXYLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
+
+void copyXZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
+
+void copyYZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 
 /**
  * Demande des dimensions Ã  l'utilisateur, crÃ©e un volume en consÃ©quence

@@ -24,13 +24,12 @@ using namespace std;
 
 int main() {
 
-
    Volume userScan = inputScanUser();
    for (size_t i = 0; i < userScan.size(); i++) {
       cout << copyLayerFromVolume(userScan, Dimension::YZ, i + 1) << endl;
    }
 
-   Volume CubeTest = {
+   Volume cubeTest = {
       {
          {false, false, false, false, false},
          {false, false, true, false, false},
@@ -68,9 +67,9 @@ int main() {
       }
    };
 
-    Plane projection = projectDimension(CubeTest, Dimension::YZ);
+    //Plane projection = projectDimension(cubeTest, Dimension::YZ);
 
-    cout << projection << endl;
+    //cout << projection << endl;
 
    cout << "Presser [Enter] pour quitter" << endl;
    EMPTY_BUFFER;
