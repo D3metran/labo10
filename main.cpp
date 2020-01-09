@@ -13,32 +13,25 @@ Compilateur : MinGW-g++ 6.3.0
 -----------------------------------------------------------------------------------
  */
 
-#include "YS_header.h"
 #include <iostream>
 #include <cstdlib>
 #include <limits> //numeric_limits
+#include "scanner.h"
 
-#define VIDER_BUFFER cin.ignore(numeric_limits<streamsize>::max(),'\n')
+#define EMPTY_BUFFER cin.ignore(numeric_limits<streamsize>::max(),'\n')
 
 using namespace std;
 
 int main() {
 
 
-   Cube userScan = inputScanUser();
+   //Volume userScan = inputScanUser();
 
-   cout << '[' << endl;
-   for (size_t i = 0; i < userScan.size(); ++i) {
-      cout << layerCube(userScan, Dimension::YZ, i + 1) << endl;
-   }
-   cout << ']' << endl;
-
-
-   Cube CubeTest = {
+   Volume CubeTest = {
       {
          {false, false, false, false, false},
-         {false, false, false, false, false},
          {false, false, true, false, false},
+         {false, false, false, false, false},
          {false, false, false, false, false},
          {false, false, false, false, false}
       },
@@ -72,17 +65,12 @@ int main() {
       }
    };
 
-   /*
-   displayPlane(layerCube(CubeTest, Dimension::XY, 3));  
-   cout << endl;
-   displayPlane(layerCube(CubeTest, Dimension::XZ, 3));
-   cout << endl;
-   displayPlane(layerCube(CubeTest, Dimension::YZ, 3));
-    */
+    Plane projection = projectDimension(CubeTest, Dimension::XY);
 
+    cout << projection << endl;
 
    cout << "Presser [Enter] pour quitter" << endl;
-   VIDER_BUFFER;
+   EMPTY_BUFFER;
    return EXIT_SUCCESS;
 }
 
