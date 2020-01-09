@@ -17,6 +17,6 @@ Plane layerCube(Cube scanner, Dimension dimension, size_t layer);
 
 void displayPlane(Plane display);
 
-Cube input();
+Cube inputScanUser();
 
 #endif

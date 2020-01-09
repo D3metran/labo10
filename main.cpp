@@ -7,7 +7,7 @@ Date        : <jj.mm.aaaa>
 
 But         : <Que fait le code? Clair, concis et exhaustif>
 
-Remarque(s) : <Lister les problèmes du code>
+Remarque(s) : <Lister les problÃ¨mes du code>
 
 Compilateur : MinGW-g++ 6.3.0
 -----------------------------------------------------------------------------------
@@ -23,6 +23,15 @@ Compilateur : MinGW-g++ 6.3.0
 using namespace std;
 
 int main() {
+
+   /*
+   Cube userScan = inputScanUser();
+
+   for (size_t i = 0; i < userScan.size(); ++i) {
+      displayPlane(layerCube(userScan, Dimension::YZ, i + 1));
+      cout << endl;
+   }
+    */
 
 
    Cube CubeTest = {
@@ -62,13 +71,6 @@ int main() {
          {false, false, false, false, false}
       }
    };
-
-   Cube userScan = input();
-
-   for (size_t i = 0; i < userScan.size(); ++i) {
-      displayPlane(layerCube(userScan, Dimension::YZ, i + 1));
-      cout << endl;
-   }
 
    /*
    displayPlane(layerCube(CubeTest, Dimension::XY, 3));

@@ -73,28 +73,25 @@ Cube input() {
 
    unsigned int dimensionX, dimensionY, dimensionZ;
 
+   //Boucle de saisie des dimensions du scan
    do {
-
       if (cin.fail()) {
          cin.clear();
          VIDER_BUFFER;
       }
-
       cout << "Entrez les valeurs des 3 dimensions du scan (nombres entiers > 0) : ";
       cin >> dimensionX >> dimensionY >> dimensionZ;
 
    } while (cin.fail());
    VIDER_BUFFER;
 
-
-
    Cube userCube(dimensionX, Plane(dimensionY, Line(dimensionZ, false)));
-
    char tmp;
 
+   //Remplissage ligne par ligne du scan
    for (size_t x = 0; x < dimensionX; ++x) {
       for (size_t y = 0; y < dimensionY; ++y) {
-         cout << "Entrez " << dimensionZ << " booleens : ";
+         cout << "Entrez " << dimensionZ << " booleens (0 ou 1) : ";
          cin;
          for (size_t z = 0; z < dimensionZ; ++z) {
             do {
