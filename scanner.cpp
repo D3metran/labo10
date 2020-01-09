@@ -33,7 +33,6 @@ void projectXY(Volume& scan, Plane& projection) {
         projection.at(x).resize(Y_SIZE);
         for (size_t y = 0; y < Y_SIZE; ++y) {
             const size_t Z_SIZE = scan.at(x).at(y).size();
-            // Z_Size unused ??
             for (size_t z = 0; z < Y_SIZE; ++z) {
                 if (scan[x][y][z]) {
                     projection[x][y] = true;
