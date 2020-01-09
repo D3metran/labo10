@@ -68,7 +68,7 @@ int main() {
       }
    };
 
-    Plane projection = projectDimension(CubeTest, Dimension::XY);
+    Plane projection = projectDimension(CubeTest, Dimension::YZ);
 
     cout << projection << endl;
 
