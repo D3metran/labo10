@@ -25,7 +25,10 @@ using namespace std;
 int main() {
 
 
-   //Volume userScan = inputScanUser();
+   Volume userScan = inputScanUser();
+   for (size_t i = 0; i < userScan.size(); i++) {
+      cout << copyLayerFromVolume(userScan, Dimension::YZ, i + 1) << endl;
+   }
 
    Volume CubeTest = {
       {

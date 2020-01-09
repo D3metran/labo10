@@ -33,6 +33,7 @@ void projectXY(Volume& scan, Plane& projection) {
         projection.at(x).resize(Y_SIZE);
         for (size_t y = 0; y < Y_SIZE; ++y) {
             const size_t Z_SIZE = scan.at(x).at(y).size();
+            // Z_Size unused ??
             for (size_t z = 0; z < Y_SIZE; ++z) {
                 if (scan[x][y][z]) {
                     projection[x][y] = true;
@@ -44,36 +45,36 @@ void projectXY(Volume& scan, Plane& projection) {
 }
 
 
-Plane layerVolume(Volume volume, Dimension dimension, size_t layer) {
+Plane copyLayerFromVolume(Volume volume, Dimension dimension, size_t layer) {
 
     Plane output;
 
-    size_t sizeX = volume.size();
-    size_t sizeY = volume.at(0).size();
-    size_t sizeZ = volume.at(0).at(0).size();
+    const size_t SIZE_X = volume.size();
+    const size_t SIZE_Y = volume.at(0).size();
+    const size_t SIZE_Z = volume.at(0).at(0).size();
 
     switch (dimension) {
 
         case Dimension::XY:
 
-            if (layer > sizeZ) break;
+            if (layer > SIZE_Z) break;
 
-            output.resize(sizeX, Line(sizeY, false));
+            output.resize(SIZE_X, Line(SIZE_Y, false));
 
-            for (size_t x = 0; x < sizeX; ++x)
-                for (size_t y = 0; y < sizeY; ++y)
+            for (size_t x = 0; x < SIZE_X; ++x)
+                for (size_t y = 0; y < SIZE_Y; ++y)
                     output[x][y] = volume[x][y][layer - 1];
 
             break;
 
         case Dimension::XZ:
 
-            if (layer > sizeY) break;
+            if (layer > SIZE_Y) break;
 
-            output.resize(sizeX, Line(sizeZ, false));
+            output.resize(SIZE_X, Line(SIZE_Z, false));
 
-            for (size_t x = 0; x < sizeX; ++x)
-                for (size_t z = 0; z < sizeZ; ++z)
+            for (size_t x = 0; x < SIZE_X; ++x)
+                for (size_t z = 0; z < SIZE_Z; ++z)
                     output[x][z] = volume[x][layer - 1][z];
 
 
@@ -81,12 +82,12 @@ Plane layerVolume(Volume volume, Dimension dimension, size_t layer) {
 
         case Dimension::YZ:
 
-            if (layer > sizeX) break;
+            if (layer > SIZE_X) break;
 
-            output.resize(sizeY, Line(sizeZ, false));
+            output.resize(SIZE_Y, Line(SIZE_Z, false));
 
-            for (size_t y = 0; y < sizeY; ++y)
-                for (size_t z = 0; z < sizeZ; ++z)
+            for (size_t y = 0; y < SIZE_Y; ++y)
+                for (size_t z = 0; z < SIZE_Z; ++z)
                     output[y][z] = volume[layer - 1][y][z];
 
             break;
