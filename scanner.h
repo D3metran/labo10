@@ -10,4 +10,22 @@ Compiler     : g++ 7.4.0
 #ifndef LABO_10_SCANNER_H
 #define LABO_10_SCANNER_H
 
+#include <vector>
+
+using Line = std::vector<bool>;
+using Plane = std::vector<Line>;
+using Cube = std::vector<Plane>;
+
+enum class Dimension {
+    XY, XZ, YZ
+};
+
+Plane projectDimension(Cube&, Dimension);
+
+void projectXY(Cube&, Plane&);
+
+void projectXZ(Cube&, Plane&);
+
+void projectYZ(Cube&, Plane&);
+
 #endif //LABO_10_SCANNER_H
