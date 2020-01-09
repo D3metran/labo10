@@ -15,10 +15,10 @@ Plane projectDimension(Volume& scan, Dimension dimension) {
             projectXY(scan, projection);
             break;
         case Dimension::XZ:
-
+            projectXZ(scan, projection);
             break;
         case Dimension::YZ:
-
+            projectYZ(scan, projection);
             break;
     }
 
@@ -27,15 +27,48 @@ Plane projectDimension(Volume& scan, Dimension dimension) {
 
 void projectXY(Volume& scan, Plane& projection) {
     const size_t X_SIZE = scan.size();
-    projection.resize(X_SIZE);
+    const size_t Y_SIZE = scan.at(0).size();
+    const size_t Z_SIZE = scan.at(0).at(0).size();
+    projection.resize(X_SIZE, Line(Y_SIZE));
     for (size_t x = 0; x < X_SIZE; ++x) {
-        const size_t Y_SIZE = scan.at(x).size();
-        projection.at(x).resize(Y_SIZE);
         for (size_t y = 0; y < Y_SIZE; ++y) {
-            const size_t Z_SIZE = scan.at(x).at(y).size();
             for (size_t z = 0; z < Y_SIZE; ++z) {
                 if (scan[x][y][z]) {
                     projection[x][y] = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void projectYZ(Volume& scan, Plane& projection) {
+    const size_t X_SIZE = scan.size();
+    const size_t Y_SIZE = scan.at(0).size();
+    const size_t Z_SIZE = scan.at(0).at(0).size();
+    projection.resize(Y_SIZE, Line(Z_SIZE));
+    for (size_t y = 0; y < Y_SIZE; ++y) {
+        for (size_t z = 0; z < Z_SIZE; ++z) {
+            for (size_t x = 0; x < X_SIZE; ++x) {
+                if (scan[x][y][z]) {
+                    projection[y][z] = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void projectXZ(Volume& scan, Plane& projection) {
+    const size_t X_SIZE = scan.size();
+    const size_t Y_SIZE = scan.at(0).size();
+    const size_t Z_SIZE = scan.at(0).at(0).size();
+    projection.resize(X_SIZE, Line(Z_SIZE));
+    for (size_t x = 0; x < X_SIZE; ++x) {
+        for (size_t z = 0; z < Z_SIZE; ++z) {
+            for (size_t y = 0; y < Y_SIZE; ++y) {
+                if (scan[x][y][z]) {
+                    projection[x][z] = true;
                     break;
                 }
             }
@@ -148,12 +181,9 @@ ostream& operator<<(ostream& os, const Line& line) {
 }
 
 ostream& operator<<(ostream& os, const Plane& plane) {
-    os << '[';
     for (auto i = plane.begin(); i != plane.end(); ++i) {
         os << *i;
-        if (i != plane.end() - 1)
-            os << ", ";
+        os << endl;
     }
-    os << ']';
     return os;
 }
