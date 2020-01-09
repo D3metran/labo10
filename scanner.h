@@ -29,8 +29,20 @@ void projectXZ(Volume&, Plane&);
 
 void projectYZ(Volume&, Plane&);
 
-Plane layerVolume(Volume volume, Dimension dimension, size_t layer);
+/**
+ * copie une couche d'un volume
+ * @param volume le volume dont la couche sera copie
+ * @param dimension la dimension par laquelle on regarde le volume
+ * @param layer le numero de la couche (la n-Ã¨me couche)
+ * @return 
+ */
+Plane copyLayerFromVolume(Volume volume, Dimension dimension, size_t layer);
 
+/**
+ * Demande des dimensions Ã  l'utilisateur, crÃ©e un volume en consÃ©quence
+ * et demande Ã  l'utilisateur de le remplir
+ * @return le volume crÃ©e et rempli
+ */
 Volume inputScanUser();
 
 /**
