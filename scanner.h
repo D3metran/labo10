@@ -1,10 +1,10 @@
 /*  ----------------------------------------------------------------------------
 Labo         : Labo_10
 File         : LABO_10_Ackermann_Schaufelberger_scanner.h
-Author(s)    : Yannick Schaufelberger et Simon Ackermann
-Date         : 07.01.2020
+Author(s)    : Simon Ackermann et Yannick Schaufelberger
+Date         : 06.01.2020
 Purpose      : Manipuler le resultat d'un scan 3D
-Remarks(s)   :
+Remarks(s)   : Le scan est supposé être un parallépipède rectangle
 Compiler     : MinGW-g++ 6.3.0
 --------------------------------------------------------------------------------  */
 #ifndef LABO_10_SCANNER_H
@@ -13,12 +13,12 @@ Compiler     : MinGW-g++ 6.3.0
 #include <vector>
 #include <iostream>
 
-using Line = std::vector<bool>;
-using Plane = std::vector<Line>;
+using Line   = std::vector<bool>;
+using Plane  = std::vector<Line>;
 using Volume = std::vector<Plane>;
 
 enum class Dimension {
-    XY, XZ, YZ
+   XY, XZ, YZ
 };
 
 /**
@@ -54,7 +54,7 @@ void projectYZ(Volume& volume, Plane& plane);
  * @brief copie une couche d'un volume
  * @param volume le volume dont la couche sera copie
  * @param dimension la dimension par laquelle on regarde le volume
- * @param layer le numero de la couche (la n-Ã¨me couche)
+ * @param layer le numero de la couche (la n-ème couche)
  * @return 
  */
 Plane copyLayerFromVolume(Volume& volume, Dimension dimension, size_t layer);
@@ -84,10 +84,10 @@ void copyXZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 void copyYZLayerFromVolume(Volume& volume, size_t layer, Plane& plane);
 
 /**
- * @brief Demande des dimensions Ã  l'utilisateur, crÃ©e un volume en consÃ©quence
- *        et demande Ã  l'utilisateur de le remplir
- * @remark Toute entrée autre que 0 est considérée comme 1
- * @return le volume crÃ©e et rempli
+ * @brief demande des dimensions à l'utilisateur, crée un volume en conséquence
+ *        et demande à l'utilisateur de le remplir
+ * @remark toute entrée autre que 0 est considérée comme 1
+ * @return le volume crée et rempli
  */
 Volume inputScanUser();
 

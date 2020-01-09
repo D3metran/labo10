@@ -1,10 +1,10 @@
 /*  ----------------------------------------------------------------------------
 Labo         : Labo_10
 File         : LABO_10_Ackermann_Schaufelberger_main.cpp
-Author(s)    : Yannick Schaufelberger et Simon Ackermann
-Date         : 07.01.2020
+Author(s)    : Simon Ackermann et Yannick Schaufelberger
+Date         : 06.01.2020
 Purpose      : Manipuler le resultat d'un scan 3D
-Remarks(s)   :
+Remarks(s)   : Le scan est supposé être un parallépipède rectangle
 Compiler     : MinGW-g++ 6.3.0
 --------------------------------------------------------------------------------  */
 
@@ -27,7 +27,7 @@ int main() {
    Volume cubeTest = {
       {
          {false, false, false, false, false},
-         {false, false, true, false, false},
+         {false, false, true,  false, false},
          {false, false, false, false, false},
          {false, false, false, false, false},
          {false, false, false, false, false}
@@ -35,16 +35,16 @@ int main() {
       {
          {false, false, false, false, false},
          {false, false, false, false, false},
-         {false, false, true, false, false},
+         {false, false, true,  false, false},
          {false, false, false, false, false},
          {false, false, false, false, false}
       },
       {
          {false, false, false, false, false},
-         {false, false, true, false, false},
-         {false, false, true, false, false},
+         {false, false, true,  false, false},
+         {false, false, true,  false, false},
          {false, false, false, false, false},
-         {false, false, false, false, true}
+         {false, false, false, false, true }
       },
       {
          {false, false, false, false, false},
@@ -56,7 +56,7 @@ int main() {
       {
          {false, false, false, false, false},
          {false, false, false, false, false},
-         {false, false, false, true, true},
+         {false, false, false, true,  true },
          {false, false, false, false, false},
          {false, false, false, false, false}
       }
@@ -75,4 +75,3 @@ int main() {
    EMPTY_BUFFER;
    return EXIT_SUCCESS;
 }
-
